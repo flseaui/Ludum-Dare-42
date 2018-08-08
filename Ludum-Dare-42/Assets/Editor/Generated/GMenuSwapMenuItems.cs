@@ -10,11 +10,9 @@ namespace Editor.Generated
         private static void SwapToMainMenu() => MenuSwap.SwapMenu("MainMenu");
         [MenuItem("Menu/Swap To/MainMenu", true)]
         private static bool SwapToMainMenuValidation() => MenuSwap.SwapMenuValidation("MainMenu");
-
-        [MenuItem("Menu/Swap To/OtherMenu")]
-        private static void SwapToOtherMenu() => MenuSwap.SwapMenu("OtherMenu");
-        [MenuItem("Menu/Swap To/OtherMenu", true)]
-        private static bool SwapToOtherMenuValidation() => MenuSwap.SwapMenuValidation("OtherMenu");
-
+        [MenuItem("Menu/Swap To/GameStartMenu")]
+        private static void SwapToGameStartMenu() => MenuSwap.SwapMenu("GameStartMenu");
+        [MenuItem("Menu/Swap To/GameStartMenu", true)]
+        private static bool SwapToGameStartMenuValidation() => MenuSwap.SwapMenuValidation("GameStartMenu");
     }
 }

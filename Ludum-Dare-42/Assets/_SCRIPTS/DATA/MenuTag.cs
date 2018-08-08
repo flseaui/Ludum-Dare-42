@@ -4,6 +4,6 @@
     {
         BlankMenu,
         MainMenu,
-        OtherMenu
+        GameStartMenu,
     }
 }
