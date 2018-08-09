@@ -10,7 +10,7 @@ namespace MENU
     [MenuType(MenuTag.GameStartMenu)]
     public class GameStartMenu : Menu
     {
-        private bool _loadScene = false;
+        private bool _loadScene;
         
         [SerializeField] private TextMeshProUGUI _loadingText;
         
