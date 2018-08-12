@@ -35,6 +35,10 @@ func get_person_orientation(top, bottom):
 		# oriented left
 		return 3
 		
+func add_person(bottom_coords):
+	set_cellv(world_to_map(bottom_coords),  ACTOR)
+	set_cellv(world_to_map(Vector2(bottom_coords.x, bottom_coords.y - 1)),  ACTOR)
+		
 func request_move(pawn, direction):
 	var cell_start = world_to_map(pawn.position)
 	var cell_target = cell_start + direction
@@ -49,8 +53,9 @@ func request_move(pawn, direction):
 				object_pawn.queue_free()
 				return update_pawn_position(pawn, cell_start, cell_target)
 		ACTOR:
-			var pawn_name = get_cell_pawn(cell_target).name
-			print("Cell %s contains %s" % [cell_target, pawn_name])
+			var cell_pawn = get_cell_pawn(cell_target)
+			if cell_pawn:
+				print("Cell %s contains %s" % [cell_target, cell_pawn.name])
 			
 			
 func update_pawn_position(pawn, cell_start, cell_target):

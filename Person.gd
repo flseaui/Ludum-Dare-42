@@ -17,14 +17,20 @@ func _ready():
 	timer.start()
 	
 	update_look_direction(Vector2(1, 0))
-
-
+	
+	
 func _process(delta):
 	drop_person()
 	rotate_person()
 	move_person()
 	
 
+func spawn_person():
+	person_top.position = Vector2(70, 30)
+	person_bottom.position = Vector2(70, 38)
+	Grid.add_person(person_bottom.position)
+
+	
 func drop_person():
 	var drop_input = Input.is_action_just_pressed("drop_person")
 	var full_drop_input = Input.is_action_just_pressed("full_drop_person")
@@ -40,7 +46,8 @@ func drop_person():
 		drop_down()
 		
 	timer.set_paused(false)
-
+	
+	
 func move_person():
 	input_direction = getinput_direction()
 	if not input_direction:
@@ -69,10 +76,11 @@ func move_person():
 			
 	timer.set_paused(false)
 	
+	
 func move_pawn(pawn, target_position):
 	pawn.position = target_position
-
-
+	
+	
 func rotate_person():
 	var rotation_direction = get_rotation_direction()
 	if rotation_direction == null: 
@@ -86,7 +94,8 @@ func rotate_person():
 		move_pawn(person_top, top_target_position)
 	
 	timer.set_paused(false)
-
+	
+	
 func rotation_from_orientation(orientation, direction):
 	match Grid.get_person_orientation(person_top, person_bottom):
 		0:
@@ -128,31 +137,40 @@ func drop_down():
 		var top_target_position = Grid.request_move(person_top, Vector2(0, drop_distance))
 		if top_target_position:
 			move_pawn(person_top, top_target_position)
+		else:
+			spawn_person()
 		var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, drop_distance))
 		if bottom_target_position:
 			move_pawn(person_bottom, bottom_target_position)
+		else:
+			spawn_person()
 	else:
 		var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, drop_distance))
 		if bottom_target_position:
 			move_pawn(person_bottom, bottom_target_position)
+		else:
+			spawn_person()
 		var top_target_position = Grid.request_move(person_top, Vector2(0, drop_distance))
 		if top_target_position:
 			move_pawn(person_top, top_target_position)
+		else:
+			spawn_person()
+		
 		
 func getinput_direction():
 	return Vector2(
 		int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left")),
 		int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
 	)
-
-
+	
+	
 func get_rotation_direction():
 	if Input.is_action_just_pressed("rotate_left"): 
 		return(0)
 	elif Input.is_action_just_pressed("rotate_right"): 
 		return(1)
-
-
+		
+		
 func update_look_direction(direction):
 	print("dir")
 	#$Pivot/Sprite.rotation = 0#direction.angle()
