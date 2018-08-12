@@ -104,13 +104,23 @@ func rotation_from_orientation(orientation, direction):
 			
 			
 func drop_down():
-	var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, 1))
-	if bottom_target_position:
-		move_pawn(person_bottom, bottom_target_position)
-		
-	var top_target_position = Grid.request_move(person_top, Vector2(0, 1))
-	if top_target_position:
+	var orientation = Grid.get_person_orientation(person_top, person_bottom)
+	
+	if orientation == 1:
+		var top_target_position = Grid.request_move(person_top, Vector2(0, 1))
+		if top_target_position:
 			move_pawn(person_top, top_target_position)
+		var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, 1))
+		if bottom_target_position:
+			move_pawn(person_bottom, bottom_target_position)
+	else:
+		var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, 1))
+		if bottom_target_position:
+			move_pawn(person_bottom, bottom_target_position)
+		var top_target_position = Grid.request_move(person_top, Vector2(0, 1))
+		if top_target_position:
+			move_pawn(person_top, top_target_position)
+		
 
 
 func getinput_direction():

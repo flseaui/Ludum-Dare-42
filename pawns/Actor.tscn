@@ -7,12 +7,10 @@
 z_index = 1
 script = ExtResource( 1 )
 _sections_unfolded = [ "Offset", "Transform", "Z Index" ]
-__meta__ = {
-"_edit_group_": true
-}
 type = null
 
 [node name="Pivot" type="Position2D" parent="." index="0"]
+position = Vector2( -4, -4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="Pivot" index="0"]
