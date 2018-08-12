@@ -26,26 +26,32 @@ func _process(delta):
 	
 
 func spawn_person():
-	person_top.position = Vector2(70, 30)
-	person_bottom.position = Vector2(70, 38)
+	person_top.position = Vector2(72.385, 15.304)
+	person_bottom.position = Vector2(72.385, 23.304)
 	Grid.add_person(person_bottom.position)
 
 	
 func drop_person():
 	var drop_input = Input.is_action_just_pressed("drop_person")
 	var full_drop_input = Input.is_action_just_pressed("full_drop_person")
+	var ret = -1
 	if full_drop_input:
 		# full drop
 		timer.set_paused(true)
-		for i in range(13):
-			drop_down()
-		return
-	if drop_input:	
+		var hit = false
+		while not hit:
+			var dropped = drop_down()
+			if dropped == -1:
+				hit = true
+		ret = 1
+	elif drop_input:	
 		# single drop
 		timer.set_paused(true)
 		drop_down()
+		ret = 1
 		
 	timer.set_paused(false)
+	return ret
 	
 	
 func move_person():
@@ -63,16 +69,16 @@ func move_person():
 		var bottom_target_position = Grid.request_move(person_bottom, input_direction)
 		if bottom_target_position:
 			move_pawn(person_bottom, bottom_target_position)
-		var top_target_position = Grid.request_move(person_top, input_direction)
-		if top_target_position:
-			move_pawn(person_top, top_target_position)
+			var top_target_position = Grid.request_move(person_top, input_direction)
+			if top_target_position:
+				move_pawn(person_top, top_target_position)
 	else:
 		var top_target_position = Grid.request_move(person_top, input_direction)
 		if top_target_position:
 			move_pawn(person_top, top_target_position)
-		var bottom_target_position = Grid.request_move(person_bottom, input_direction)
-		if bottom_target_position:
-			move_pawn(person_bottom, bottom_target_position)
+			var bottom_target_position = Grid.request_move(person_bottom, input_direction)
+			if bottom_target_position:
+				move_pawn(person_bottom, bottom_target_position)
 			
 	timer.set_paused(false)
 	
@@ -139,28 +145,32 @@ func drop_down():
 			move_pawn(person_top, top_target_position)
 		else:
 			spawn_person()
+			return(-1)
 		var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, drop_distance))
 		if bottom_target_position:
 			move_pawn(person_bottom, bottom_target_position)
 		else:
 			spawn_person()
+			return(-1)
 	else:
 		var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, drop_distance))
 		if bottom_target_position:
 			move_pawn(person_bottom, bottom_target_position)
 		else:
 			spawn_person()
+			return(-1)
 		var top_target_position = Grid.request_move(person_top, Vector2(0, drop_distance))
 		if top_target_position:
 			move_pawn(person_top, top_target_position)
 		else:
 			spawn_person()
+			return(-1)
 		
 		
 func getinput_direction():
 	return Vector2(
-		int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left")),
-		int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+		int(Input.is_action_just_pressed("ui_right")) - int(Input.is_action_just_pressed("ui_left")),
+		int(Input.is_action_just_pressed("ui_down")) - int(Input.is_action_just_pressed("ui_up"))
 	)
 	
 	
@@ -172,5 +182,5 @@ func get_rotation_direction():
 		
 		
 func update_look_direction(direction):
-	print("dir")
+	pass
 	#$Pivot/Sprite.rotation = 0#direction.angle()

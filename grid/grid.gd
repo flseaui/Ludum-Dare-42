@@ -8,7 +8,38 @@ func _ready():
 			if person_segmant.get_name() == "Top" || person_segmant.get_name() == "Bottom":
 				set_cellv(world_to_map(person_segmant.position), person_segmant.type)
 		
-		 
+		
+func _process(delta):
+	check_for_matches()
+		
+func check_for_matches():
+	for x in range(16):
+		for y in range(16):
+			var tile = get_cell(x, y)
+			if tile == P0_TOP:
+				var tops = []
+				for nx in range(-1, 1):
+					for ny in range(-1, 1):
+						if get_cell(x + nx, y + ny) == P0_TOP:
+							tops.append(Vector2(x + nx, y + ny))
+				if (tops.size() > 2):
+					for top in tops:
+						set_cell(top.x, top.y, -1)
+			if tile == P0_BOTTOM:			
+				var bottoms = []
+				for nx in range(-1, 1):
+					for ny in range(-1, 1):
+						if get_cell(x + nx, y + ny) == P0_BOTTOM:
+							bottoms.append(Vector2(x + nx, y + ny))
+				if (bottoms.size() > 2):
+					for bottom in bottoms:
+						set_cell(bottom.x, bottom.y, -1)
+							
+							
+							
+					
+
+		
 func get_cell_pawn(coordinates):
 	for node in get_children():
 		if world_to_map(node.position) == coordinates:
