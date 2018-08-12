@@ -10,8 +10,9 @@ config_version=4
 
 [application]
 
-config/name="Grid Movement"
+config/name="Ludum Dare 42"
 run/main_scene="res://Game.tscn"
+boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 
 [display]

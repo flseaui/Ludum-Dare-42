@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://tilesets/grid_lines/grid_lines_tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://pawns/sprites/Wood Elevator.png" type="Texture" id=2]
 [ext_resource path="res://tilesets/grid/grid_tileset.tres" type="TileSet" id=3]
 [ext_resource path="res://grid/grid.gd" type="Script" id=4]
-[ext_resource path="res://pawns/Actor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Person.gd" type="Script" id=5]
+[ext_resource path="res://pawns/Actor.tscn" type="PackedScene" id=6]
 
 [node name="Game" type="Node" index="0"]
 
@@ -90,14 +91,14 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Actor" parent="Grid" index="0" instance=ExtResource( 5 )]
-position = Vector2( 30, 30 )
-type = 2
+[node name="Person" type="Node2D" parent="Grid" index="0"]
+script = ExtResource( 5 )
 
-[node name="Sprite" parent="Grid/Actor/Pivot" index="0"]
-position = Vector2( 0, 0 )
-offset = Vector2( 0, 0 )
-_sections_unfolded = [ "Offset", "Region", "Transform", "Visibility" ]
+[node name="Top" parent="Grid/Person" index="0" instance=ExtResource( 6 )]
+position = Vector2( 70, 30 )
+type = 1
 
+[node name="Bottom" parent="Grid/Person" index="1" instance=ExtResource( 6 )]
+position = Vector2( 70, 38 )
+type = 1
 
-[editable path="Grid/Actor"]

@@ -3,8 +3,10 @@ extends TileMap
 enum CELL_TYPES { EMPTY = -1, ACTOR, OBSTACLE, OBJECT}
 
 func _ready():
-	for child in get_children():
-		set_cellv(world_to_map(child.position), child.type)
+	for person in get_children():
+		for person_segmant in person.get_children():
+			if (person_segmant.get_name() == "Top" || person_segmant.get_name() == "Bottom"):
+				set_cellv(world_to_map(person_segmant.position), person_segmant.type)
 		
          
 func get_cell_pawn(coordinates):
