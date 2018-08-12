@@ -8,12 +8,12 @@ func _ready():
 			if person_segmant.get_name() == "Top" || person_segmant.get_name() == "Bottom":
 				set_cellv(world_to_map(person_segmant.position), person_segmant.type)
 		
-         
+		 
 func get_cell_pawn(coordinates):
 	for node in get_children():
 		if world_to_map(node.position) == coordinates:
 			return(node)
-
+			
 func get_person_orientation(top, bottom):
 	var top_cell = world_to_map(top.position)
 	var bottom_cell = world_to_map(bottom.position)
@@ -34,7 +34,7 @@ func get_person_orientation(top, bottom):
 	elif top_cell.x < bottom_cell.x:
 		# oriented left
 		return 3
-
+		
 func request_move(pawn, direction):
 	var cell_start = world_to_map(pawn.position)
 	var cell_target = cell_start + direction
@@ -51,9 +51,21 @@ func request_move(pawn, direction):
 		ACTOR:
 			var pawn_name = get_cell_pawn(cell_target).name
 			print("Cell %s contains %s" % [cell_target, pawn_name])
-
-
+			
+			
 func update_pawn_position(pawn, cell_start, cell_target):
 	set_cellv(cell_target, pawn.type)
 	set_cellv(cell_start, EMPTY)
 	return map_to_world(cell_target) + cell_size / 2
+	
+func vertical_distance_to_tile(pawn):
+	var cell = world_to_map(pawn.position)
+	var hit = false
+	var distance = 0
+	
+	while not hit:
+		distance += 1
+		if get_cell(cell.x, cell.y + distance) != EMPTY:
+			hit = true
+			
+	return(distance)

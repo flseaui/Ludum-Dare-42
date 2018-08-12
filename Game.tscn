@@ -3,7 +3,7 @@
 [ext_resource path="res://tilesets/grid_lines/grid_lines_tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://pawns/sprites/Wood Elevator.png" type="Texture" id=2]
 [ext_resource path="res://tilesets/grid/grid_tileset.tres" type="TileSet" id=3]
-[ext_resource path="res://grid/grid.gd" type="Script" id=4]
+[ext_resource path="res://grid/Grid.gd" type="Script" id=4]
 [ext_resource path="res://Person.gd" type="Script" id=5]
 [ext_resource path="res://pawns/Actor.tscn" type="PackedScene" id=6]
 [ext_resource path="res://pawns/sprites/person_0_body.png" type="Texture" id=7]
