@@ -20,7 +20,7 @@ func _ready():
 
 
 func _process(delta):
-	#rotate_person()
+	rotate_person()
 	
 	_input_direction = get_input_direction()
 	if not _input_direction:
@@ -33,25 +33,64 @@ func _process(delta):
 	if top_target_position && bottom_target_position:
 		move_person(_person_top, top_target_position)
 		move_person(_person_bottom, bottom_target_position)
-	else:
-		bump()
 
 
 func rotate_person():
-	print("rotated")
+	var rotation_direction = get_rotation_direction()
+	if rotation_direction == null: 
+		return
 
+	set_process(false)
+	_timer.stop()
+	
+	var top_target_position = Grid.request_move(_person_top, 
+			rotation_from_orientation(Grid.get_person_orientation(_person_top, _person_bottom), rotation_direction))
+	if top_target_position:
+		move_person(_person_top, top_target_position)
+		
+	set_process(true)
+	_timer.start()
+	
+
+func rotation_from_orientation(orientation, direction):
+	match Grid.get_person_orientation(_person_top, _person_bottom):
+		0:
+			# left from up
+			if direction == 0:
+				return(Vector2(-1, 1))
+			# right from up
+			else:
+				return(Vector2(1, 1))
+		1:
+			# left from down
+			if direction == 0:
+				return(Vector2(1, -1))
+			# right from down
+			else:
+				return(Vector2(-1, -1))
+		2:
+			# left from right
+			if direction == 0:
+				return(Vector2(-1, -1))
+			# right from right
+			else:
+				return(Vector2(-1, 1))
+		3:
+			# left from left
+			if direction == 0:
+				return(Vector2(1, 1))
+			# right from left
+			else:
+				return(Vector2(1, -1))
+			
 func drop_down():
 	var bottom_target_position = Grid.request_move(_person_bottom, Vector2(0, 1))
 	if bottom_target_position:
 		move_person(_person_bottom, bottom_target_position)
-	else:
-		bump()
 		
 	var top_target_position = Grid.request_move(_person_top, Vector2(0, 1))
 	if top_target_position:
 			move_person(_person_top, top_target_position)
-	else:
-		bump()
 
 func get_input_direction():
 	return Vector2(
@@ -60,8 +99,10 @@ func get_input_direction():
 	)
 
 func get_rotation_direction():
-	if (Input.is_action_just_pressed("rotate_left")): return(0)
-	elif (Input.is_action_just_pressed("rotate_right")): return(1)
+	if Input.is_action_just_pressed("rotate_left"): 
+		return(0)
+	elif Input.is_action_just_pressed("rotate_right"): 
+		return(1)
 
 func update_look_direction(direction):
 	print("dir")
@@ -70,7 +111,3 @@ func update_look_direction(direction):
 
 func move_person(pawn, target_position):
 	pawn.position = target_position
-
-
-func bump():
-	print("bup")
