@@ -71,8 +71,42 @@ func get_person_orientation(top, bottom):
 func add_person(bottom_coords):
 	set_cellv(world_to_map(bottom_coords),  P0_BOTTOM)
 	set_cellv(world_to_map(Vector2(bottom_coords.x, bottom_coords.y - 1)),  P0_TOP)
-		
-		
+
+func set_person(bottom, top):
+	print(bottom.position)
+	print(top.position)
+	set_cellv(world_to_map(bottom.position), P0_BOTTOM)
+	set_cellv(world_to_map(top.position), P0_TOP)
+
+func move_person(top, bottom, direction, orientation):
+	var top_cell_start = world_to_map(top.position)
+	var top_cell_target = top_cell_start + direction
+	var bottom_cell_start = world_to_map(bottom.position)
+	var bottom_cell_target = bottom_cell_start + direction
+	
+	var top_cell_target_type = get_cellv(top_cell_target)
+	var bottom_cell_target_type = get_cellv(bottom_cell_target)
+	
+	print(bottom_cell_target_type)
+	match orientation:
+		# vertical
+		0, 1:
+			if bottom_cell_target_type == EMPTY:
+				set_cellv(bottom_cell_start, EMPTY)
+				set_cellv(bottom_cell_target, P0_BOTTOM)
+			
+				set_cellv(top_cell_start, EMPTY)
+				set_cellv(top_cell_target, P0_TOP)
+		# horizontal
+		2, 3:
+			if top_cell_target_type == EMPTY:
+				set_cellv(top_cell_start, EMPTY)
+				set_cellv(top_cell_target, P0_TOP)
+				
+			if bottom_cell_target_type == EMPTY:
+				set_cellv(bottom_cell_start, EMPTY)
+				set_cellv(bottom_cell_target, P0_BOTTOM)
+			
 func request_move(pawn, direction):
 	var cell_start = world_to_map(pawn.position)
 	var cell_target = cell_start + direction
@@ -80,32 +114,29 @@ func request_move(pawn, direction):
 	var cell_target_type = get_cellv(cell_target)
 	match cell_target_type:
 		EMPTY:
-			return update_pawn_position(pawn, cell_start, cell_target)
+			return true
 		OBJECT:
 			var object_pawn = get_cell_pawn(cell_target)
 			if object_pawn:
 				object_pawn.queue_free()
-				return update_pawn_position(pawn, cell_start, cell_target)
-		[ACTOR, P0_BOTTOM, P0_TOP]:
+				return true
+		[ACTOR, OBSTACLE, P0_BOTTOM, P0_TOP]:
+			
 			var cell_pawn = get_cell_pawn(cell_target)
 			if cell_pawn:
 				print("Cell %s contains %s" % [cell_target, cell_pawn.name])
+	return false
 			
 			
-func update_pawn_position(pawn, cell_start, cell_target):
+func update_pawn_position(pawn, direction):
+	var cell_start = world_to_map(pawn.position)
+	var cell_target = cell_start + direction
+	
 	set_cellv(cell_target, pawn.type)
 	set_cellv(cell_start, EMPTY)
-	return map_to_world(cell_target) + cell_size / 2
 	
 	
 func vertical_distance_to_tile(pawn):
 	var cell = world_to_map(pawn.position)
-	var hit = false
-	var distance = 0
 	
-	while not hit:
-		distance += 1
-		if get_cell(cell.x, cell.y + distance) != EMPTY:
-			hit = true
-			
-	return(distance)
+	return(16 - cell.y)

@@ -24,13 +24,6 @@ func _process(delta):
 	rotate_person()
 	move_person()
 	
-
-func spawn_person():
-	person_top.position = Vector2(72.385, 15.304)
-	person_bottom.position = Vector2(72.385, 23.304)
-	Grid.add_person(person_bottom.position)
-
-	
 func drop_person():
 	var drop_input = Input.is_action_just_pressed("drop_person")
 	var full_drop_input = Input.is_action_just_pressed("full_drop_person")
@@ -97,7 +90,7 @@ func rotate_person():
 	var top_target_position = Grid.request_move(person_top, 
 			rotation_from_orientation(Grid.get_person_orientation(person_top, person_bottom), rotation_direction))
 	if top_target_position:
-		move_pawn(person_top, top_target_position)
+		Grid.update_pawn_position(person_top, rotation_from_orientation(Grid.get_person_orientation(person_top, person_bottom), rotation_direction))
 	
 	timer.set_paused(false)
 	
@@ -134,11 +127,17 @@ func rotation_from_orientation(orientation, direction):
 				return(Vector2(1, -1))
 			
 			
+func spawn_person():
+	set_process(false)
+	#Grid.set_person(person_bottom, person_top)
+	person_top.position = Vector2(72.385, 15.304)
+	person_bottom.position = Vector2(72.385, 23.304)
+	set_process(true)
+			
 func drop_down():
 	var orientation = Grid.get_person_orientation(person_top, person_bottom)
 	var drop_distance = 1
 		
-	
 	if orientation == 1:
 		var top_target_position = Grid.request_move(person_top, Vector2(0, drop_distance))
 		if top_target_position:
@@ -165,7 +164,7 @@ func drop_down():
 		else:
 			spawn_person()
 			return(-1)
-		
+	
 		
 func getinput_direction():
 	return Vector2(
