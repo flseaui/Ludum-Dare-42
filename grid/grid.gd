@@ -1,6 +1,6 @@
 extends TileMap
 
-enum CELL_TYPES { EMPTY = -1, ACTOR, OBSTACLE, OBJECT }
+enum CELL_TYPES { EMPTY = -1, ACTOR, OBSTACLE, OBJECT, P0_TOP, P0_BOTTOM }
 
 func _ready():
 	for person in get_children():
@@ -13,6 +13,7 @@ func get_cell_pawn(coordinates):
 	for node in get_children():
 		if world_to_map(node.position) == coordinates:
 			return(node)
+			
 			
 func get_person_orientation(top, bottom):
 	var top_cell = world_to_map(top.position)
@@ -35,9 +36,11 @@ func get_person_orientation(top, bottom):
 		# oriented left
 		return 3
 		
+		
 func add_person(bottom_coords):
-	set_cellv(world_to_map(bottom_coords),  ACTOR)
-	set_cellv(world_to_map(Vector2(bottom_coords.x, bottom_coords.y - 1)),  ACTOR)
+	set_cellv(world_to_map(bottom_coords),  P0_BOTTOM)
+	set_cellv(world_to_map(Vector2(bottom_coords.x, bottom_coords.y - 1)),  P0_TOP)
+		
 		
 func request_move(pawn, direction):
 	var cell_start = world_to_map(pawn.position)
@@ -52,7 +55,7 @@ func request_move(pawn, direction):
 			if object_pawn:
 				object_pawn.queue_free()
 				return update_pawn_position(pawn, cell_start, cell_target)
-		ACTOR:
+		[ACTOR, P0_BOTTOM, P0_TOP]:
 			var cell_pawn = get_cell_pawn(cell_target)
 			if cell_pawn:
 				print("Cell %s contains %s" % [cell_target, cell_pawn.name])
@@ -62,6 +65,7 @@ func update_pawn_position(pawn, cell_start, cell_target):
 	set_cellv(cell_target, pawn.type)
 	set_cellv(cell_start, EMPTY)
 	return map_to_world(cell_target) + cell_size / 2
+	
 	
 func vertical_distance_to_tile(pawn):
 	var cell = world_to_map(pawn.position)

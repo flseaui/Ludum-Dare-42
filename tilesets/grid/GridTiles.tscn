@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://tilesets/grid/actor.png" type="Texture" id=1]
 [ext_resource path="res://tilesets/grid/object.png" type="Texture" id=2]
 [ext_resource path="res://tilesets/grid/obstacle.png" type="Texture" id=3]
+[ext_resource path="res://pawns/sprites/person_0_head.png" type="Texture" id=4]
+[ext_resource path="res://pawns/sprites/person_0_body.png" type="Texture" id=5]
 
 [node name="Node2D" type="Node2D" index="0"]
 _sections_unfolded = [ "Transform" ]
@@ -20,5 +22,15 @@ _sections_unfolded = [ "Transform", "Visibility" ]
 [node name="Obstacle" type="Sprite" parent="." index="2"]
 position = Vector2( 28.834, 4.8829 )
 texture = ExtResource( 3 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="person_0_top" type="Sprite" parent="." index="3"]
+position = Vector2( 49.9428, 5.34683 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="person_0_bottom" type="Sprite" parent="." index="4"]
+position = Vector2( 40.2003, 5.11486 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Visibility" ]
 
