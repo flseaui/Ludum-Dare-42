@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://tilesets/grid_lines/grid_lines_tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://pawns/sprites/Wood Elevator.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://grid/grid.gd" type="Script" id=4]
 [ext_resource path="res://Person.gd" type="Script" id=5]
 [ext_resource path="res://pawns/Actor.tscn" type="PackedScene" id=6]
+[ext_resource path="res://pawns/sprites/person_0_body.png" type="Texture" id=7]
 
 [node name="Game" type="Node" index="0"]
 
@@ -102,3 +103,10 @@ type = 1
 position = Vector2( 70, 38 )
 type = 1
 
+[node name="Sprite" parent="Grid/Person/Bottom/Pivot" index="0"]
+texture = ExtResource( 7 )
+
+
+[editable path="Grid/Person/Top"]
+
+[editable path="Grid/Person/Bottom"]

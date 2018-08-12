@@ -4,7 +4,6 @@
 [ext_resource path="res://pawns/sprites/person_0_head.png" type="Texture" id=2]
 
 [node name="Actor" type="Node2D" index="0"]
-position = Vector2( 32, 32 )
 z_index = 1
 script = ExtResource( 1 )
 _sections_unfolded = [ "Offset", "Transform", "Z Index" ]
@@ -17,10 +16,8 @@ type = null
 _sections_unfolded = [ "Transform" ]
 
 [node name="Sprite" type="Sprite" parent="Pivot" index="0"]
-visible = false
 position = Vector2( 1.43051e-06, -1.90735e-06 )
 texture = ExtResource( 2 )
 centered = false
-offset = Vector2( -32, -32 )
-_sections_unfolded = [ "Transform", "Visibility" ]
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
