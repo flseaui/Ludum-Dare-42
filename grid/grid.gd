@@ -8,7 +8,6 @@ func _ready():
 		
          
 func get_cell_pawn(coordinates):
-	
 	for node in get_children():
 		print(world_to_map(node.position))
 		if world_to_map(node.position) == coordinates:

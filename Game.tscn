@@ -91,9 +91,8 @@ __meta__ = {
 }
 
 [node name="Actor" parent="Grid" index="0" instance=ExtResource( 5 )]
-editor/display_folded = true
 position = Vector2( 30, 30 )
-type = 1
+type = 2
 
 [node name="Sprite" parent="Grid/Actor/Pivot" index="0"]
 position = Vector2( 0, 0 )

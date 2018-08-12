@@ -2,22 +2,47 @@ extends "pawn.gd"
 
 onready var Grid = get_parent()
 
+var _timer = null
+var input_direction = null
+
 func _ready():
+	_timer = Timer.new()
+	
+	add_child(_timer)
+	_timer.connect("timeout", self, "drop_down")
+	_timer.set_wait_time(1.0)
+	_timer.set_one_shot(false)
+	_timer.start()
+	
 	update_look_direction(Vector2(1, 0))
 
 
 func _process(delta):
-	var input_direction = get_input_direction()
+	rotate()
+	
+	input_direction = get_input_direction()
 	if not input_direction:
 		return
+	input_direction = Vector2(input_direction.x, 0)
 	update_look_direction(input_direction)
-
+	
 	var target_position = Grid.request_move(self, input_direction)
 	if target_position:
 		move_to(target_position)
 	else:
 		bump()
 
+func rotate():
+	var rotation_direction = get_rotation_direction()
+	if rotation_direction == null: return
+	print("rot ", rotation_direction)
+
+func drop_down():
+	var target_position = Grid.request_move(self, Vector2(0, 1))
+	if target_position:
+		move_to(target_position)
+	else:
+		bump()
 
 func get_input_direction():
 	return Vector2(
@@ -25,6 +50,9 @@ func get_input_direction():
 		int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
 	)
 
+func get_rotation_direction():
+	if (Input.is_action_just_pressed("rotate_left")): return(0)
+	elif (Input.is_action_just_pressed("rotate_right")): return(1)
 
 func update_look_direction(direction):
 	$Pivot/Sprite.rotation = 0#direction.angle()
