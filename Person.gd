@@ -24,28 +24,28 @@ func _process(delta):
 	rotate_person()
 	move_person()
 	
-
-func spawn_person():
-	person_top.position = Vector2(70, 30)
-	person_bottom.position = Vector2(70, 38)
-	Grid.add_person(person_bottom.position)
-
 	
 func drop_person():
 	var drop_input = Input.is_action_just_pressed("drop_person")
 	var full_drop_input = Input.is_action_just_pressed("full_drop_person")
+	var ret = -1
 	if full_drop_input:
 		# full drop
 		timer.set_paused(true)
-		for i in range(13):
-			drop_down()
-		return
-	if drop_input:	
+		var hit = false
+		while not hit:
+			var dropped = drop_down()
+			if dropped == -1:
+				hit = true
+		ret = 1
+	elif drop_input:	
 		# single drop
 		timer.set_paused(true)
 		drop_down()
+		ret = 1
 		
 	timer.set_paused(false)
+	return ret
 	
 	
 func move_person():
@@ -59,20 +59,21 @@ func move_person():
 	update_look_direction(input_direction)
 	
 	var orientation = Grid.get_person_orientation(person_top, person_bottom)
-	if (orientation == 2 && input_direction.x <= -1) || (orientation == 3 && input_direction.x >= 1):
-		var bottom_target_position = Grid.request_move(person_bottom, input_direction)
-		if bottom_target_position:
-			move_pawn(person_bottom, bottom_target_position)
-		var top_target_position = Grid.request_move(person_top, input_direction)
-		if top_target_position:
-			move_pawn(person_top, top_target_position)
-	else:
-		var top_target_position = Grid.request_move(person_top, input_direction)
-		if top_target_position:
-			move_pawn(person_top, top_target_position)
-		var bottom_target_position = Grid.request_move(person_bottom, input_direction)
-		if bottom_target_position:
-			move_pawn(person_bottom, bottom_target_position)
+	#if (orientation == 2 && input_direction.x <= -1) || (orientation == 3 && input_direction.x >= 1):
+	Grid.move_person(person_top, person_bottom, input_direction, orientation)
+#		var bottom_target_position = Grid.request_move(person_bottom, input_direction)
+#		if bottom_target_position:
+#			Grid.update_pawn_position(person_bottom, input_direction) 
+#			var top_target_position = Grid.request_move(person_top, input_direction)
+#			if top_target_position:
+#				Grid.update_pawn_position(person_top, input_direction) 
+	
+#		var top_target_position = Grid.request_move(person_top, input_direction)
+#		if top_target_position:
+#			Grid.update_pawn_position(person_top, input_direction) 
+#			var bottom_target_position = Grid.request_move(person_bottom, input_direction)
+#			if bottom_target_position:
+#				Grid.update_pawn_position(person_bottom, input_direction) 
 			
 	timer.set_paused(false)
 	
@@ -91,7 +92,7 @@ func rotate_person():
 	var top_target_position = Grid.request_move(person_top, 
 			rotation_from_orientation(Grid.get_person_orientation(person_top, person_bottom), rotation_direction))
 	if top_target_position:
-		move_pawn(person_top, top_target_position)
+		Grid.update_pawn_position(person_top, rotation_from_orientation(Grid.get_person_orientation(person_top, person_bottom), rotation_direction))
 	
 	timer.set_paused(false)
 	
@@ -128,39 +129,55 @@ func rotation_from_orientation(orientation, direction):
 				return(Vector2(1, -1))
 			
 			
+func spawn_person():
+	set_process(false)
+	#Grid.set_person(person_bottom, person_top)
+	person_top.position = Vector2(72.385, 15.304)
+	person_bottom.position = Vector2(72.385, 23.304)
+	set_process(true)
+			
 func drop_down():
 	var orientation = Grid.get_person_orientation(person_top, person_bottom)
 	var drop_distance = 1
-		
-	
-	if orientation == 1:
-		var top_target_position = Grid.request_move(person_top, Vector2(0, drop_distance))
-		if top_target_position:
-			move_pawn(person_top, top_target_position)
-		else:
-			spawn_person()
-		var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, drop_distance))
-		if bottom_target_position:
-			move_pawn(person_bottom, bottom_target_position)
-		else:
-			spawn_person()
-	else:
-		var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, drop_distance))
-		if bottom_target_position:
-			move_pawn(person_bottom, bottom_target_position)
-		else:
-			spawn_person()
-		var top_target_position = Grid.request_move(person_top, Vector2(0, drop_distance))
-		if top_target_position:
-			move_pawn(person_top, top_target_position)
-		else:
-			spawn_person()
-		
+	Grid.move_person(person_top, person_bottom, Vector2(0, drop_distance), orientation)
+			
+
+#	print("orientation: ", orientation)
+#	if orientation == 1:
+#		var top_target_position = Grid.request_move(person_top, Vector2(0, drop_distance))
+#		if top_target_position:
+#			Grid.update_pawn_position(person_top, Vector2(0, drop_distance)) 
+#			var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, drop_distance))
+#			if bottom_target_position:
+#				Grid.update_pawn_position(person_bottom, Vector2(0, drop_distance)) 
+#		else:
+#				spawn_person()
+#				return(-1)
+#	elif orientation == 0:
+#		var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, drop_distance))
+#		if bottom_target_position:
+#			Grid.update_pawn_position(person_bottom, Vector2(0, drop_distance)) 
+#			var top_target_position = Grid.request_move(person_top, Vector2(0, drop_distance))
+#			if top_target_position:
+#				pass
+#				Grid.update_pawn_position(person_top, Vector2(0, drop_distance)) 
+#		else:
+#				spawn_person()
+#				return(-1)
+#	else:
+#		var bottom_target_position = Grid.request_move(person_bottom, Vector2(0, drop_distance))
+#		var top_target_position = Grid.request_move(person_top, Vector2(0, drop_distance))
+#		if (bottom_target_position && top_target_position):
+#			Grid.update_pawn_position(person_top, Vector2(0, drop_distance)) 
+#			Grid.update_pawn_position(person_bottom, Vector2(0, drop_distance)) 
+#		else:
+#			spawn_person()
+#			return(-1)
 		
 func getinput_direction():
 	return Vector2(
-		int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left")),
-		int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
+		int(Input.is_action_just_pressed("ui_right")) - int(Input.is_action_just_pressed("ui_left")),
+		int(Input.is_action_just_pressed("ui_down")) - int(Input.is_action_just_pressed("ui_up"))
 	)
 	
 	

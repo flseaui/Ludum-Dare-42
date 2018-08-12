@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://tilesets/grid_lines/grid_lines_tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://pawns/sprites/Wood Elevator.png" type="Texture" id=2]
 [ext_resource path="res://tilesets/grid/grid_tileset.tres" type="TileSet" id=3]
 [ext_resource path="res://grid/Grid.gd" type="Script" id=4]
-[ext_resource path="res://Person.gd" type="Script" id=5]
-[ext_resource path="res://pawns/Actor.tscn" type="PackedScene" id=6]
-[ext_resource path="res://pawns/sprites/person_0_body.png" type="Texture" id=7]
+[ext_resource path="res://pawns/Person.tscn" type="PackedScene" id=5]
+[ext_resource path="res://pawns/sprites/person_0_body.png" type="Texture" id=6]
 
 [node name="Game" type="Node" index="0"]
 
@@ -85,31 +84,26 @@ collision_layer = 1
 collision_mask = 1
 occluder_light_mask = 1
 format = 1
-tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 6, 1, 0, 7, 1, 0, 8, 1, 0, 9, 1, 0, 10, 1, 0, 11, 1, 0, 12, 1, 0, 13, 1, 0, 14, 1, 0, 15, 1, 0, 16, 1, 0, 17, 1, 0, 65536, 1, 0, 65553, 1, 0, 131072, 1, 0, 131089, 1, 0, 196608, 1, 0, 196625, 1, 0, 262144, 1, 0, 262161, 1, 0, 327680, 1, 0, 327697, 1, 0, 393216, 1, 0, 393233, 1, 0, 458752, 1, 0, 458769, 1, 0, 524288, 1, 0, 524305, 1, 0, 589824, 1, 0, 589841, 1, 0, 655360, 1, 0, 655377, 1, 0, 720896, 1, 0, 720913, 1, 0, 786432, 1, 0, 786449, 1, 0, 851968, 1, 0, 851985, 1, 0, 917504, 1, 0, 917521, 1, 0, 983040, 1, 0, 983057, 1, 0, 1048576, 1, 0, 1048593, 1, 0, 1114112, 1, 0, 1114113, 1, 0, 1114114, 1, 0, 1114115, 1, 0, 1114116, 1, 0, 1114117, 1, 0, 1114118, 1, 0, 1114119, 1, 0, 1114120, 1, 0, 1114121, 1, 0, 1114122, 1, 0, 1114123, 1, 0, 1114124, 1, 0, 1114125, 1, 0, 1114126, 1, 0, 1114127, 1, 0, 1114128, 1, 0, 1114129, 1, 0 )
+tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 6, 1, 0, 7, 1, 0, 8, 1, 0, 9, 1, 0, 10, 1, 0, 11, 1, 0, 12, 1, 0, 13, 1, 0, 14, 1, 0, 15, 1, 0, 16, 1, 0, 17, 1, 0, 65536, 1, 0, 65542, 1, 0, 65547, 1, 0, 65553, 1, 0, 131072, 1, 0, 131078, 1, 0, 131083, 1, 0, 131089, 1, 0, 196608, 1, 0, 196609, 1, 0, 196610, 1, 0, 196611, 1, 0, 196612, 1, 0, 196613, 1, 0, 196614, 1, 0, 196619, 1, 0, 196620, 1, 0, 196621, 1, 0, 196622, 1, 0, 196623, 1, 0, 196624, 1, 0, 196625, 1, 0, 262144, 1, 0, 262161, 1, 0, 327680, 1, 0, 327697, 1, 0, 393216, 1, 0, 393233, 1, 0, 458752, 1, 0, 458769, 1, 0, 524288, 1, 0, 524305, 1, 0, 589824, 1, 0, 589841, 1, 0, 655360, 1, 0, 655377, 1, 0, 720896, 1, 0, 720913, 1, 0, 786432, 1, 0, 786449, 1, 0, 851968, 1, 0, 851985, 1, 0, 917504, 1, 0, 917521, 1, 0, 983040, 1, 0, 983057, 1, 0, 1048576, 1, 0, 1048593, 1, 0, 1114112, 1, 0, 1114113, 1, 0, 1114114, 1, 0, 1114115, 1, 0, 1114116, 1, 0, 1114117, 1, 0, 1114118, 1, 0, 1114119, 1, 0, 1114120, 1, 0, 1114121, 1, 0, 1114122, 1, 0, 1114123, 1, 0, 1114124, 1, 0, 1114125, 1, 0, 1114126, 1, 0, 1114127, 1, 0, 1114128, 1, 0, 1114129, 1, 0 )
 script = ExtResource( 4 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Person" type="Node2D" parent="Grid" index="0"]
-script = ExtResource( 5 )
+[node name="Person" parent="Grid" index="0" instance=ExtResource( 5 )]
 
-[node name="Top" parent="Grid/Person" index="0" instance=ExtResource( 6 )]
-position = Vector2( 70, 30 )
-type = 3
+[node name="Top" parent="Grid/Person" index="0"]
+position = Vector2( 72.385, 15.304 )
 
-[node name="Sprite" parent="Grid/Person/Top/Pivot" index="0"]
-visible = false
-
-[node name="Bottom" parent="Grid/Person" index="1" instance=ExtResource( 6 )]
-position = Vector2( 70, 38 )
-type = 4
+[node name="Bottom" parent="Grid/Person" index="1"]
+position = Vector2( 72.385, 23.304 )
 
 [node name="Sprite" parent="Grid/Person/Bottom/Pivot" index="0"]
-visible = false
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 
+
+[editable path="Grid/Person"]
 
 [editable path="Grid/Person/Top"]
 
